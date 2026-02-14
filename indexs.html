@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Codey Valentine Love</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: #0f0f0f; /* dark terminal vibe */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    font-family: 'Courier New', monospace;
+    color: #00ff00;
+    overflow: hidden;
+}
+
+/* Eyes */
+.eye {
+    width: 120px;
+    height: 120px;
+    background: #00ff00;
+    border-radius: 50%;
+    margin: 10px;
+    position: relative;
+    box-shadow: 0 0 20px #00ff00;
+}
+
+.pupil {
+    width: 50px;
+    height: 50px;
+    background: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 35px;
+    left: 35px;
+}
+
+/* Wink animation */
+@keyframes wink {
+    0% { height: 120px; }
+    50% { height: 20px; }
+    100% { height: 120px; }
+}
+
+/* Valentine Section */
+#valentineSection {
+    display: none;
+    margin-top: 40px;
+    text-align: center;
+}
+
+#valentineSection h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+button {
+    width: 150px;
+    height: 150px;
+    font-size: 24px;
+    border-radius: 20px;
+    margin: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #00ff00;
+    background: #0f0f0f;
+    color: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+/* LOVE MESSAGE */
+#loveMessage {
+    display: none;
+    font-size: 28px;
+    color: #00ff00;
+    margin-top: 50px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00ff00;
+    animation: pop 0.6s ease forwards;
+    word-wrap: break-word;
+    max-width: 90%;
+}
+
+@keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Floating code symbols */
+.codeSymbol {
+    position: absolute;
+    color: #00ff00;
+    font-size: 16px;
+    font-weight: bold;
+    opacity: 0.7;
+    pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Eyes -->
+<div style="display:flex;">
+    <div class="eye" id="eye1"><div class="pupil"></div></div>
+    <div class="eye" id="eye2"><div class="pupil"></div></div>
+</div>
+
+<!-- Valentine Section -->
+<div id="valentineSection">
+    <h1>wee peshy be my valentine Bana 💻💘</h1>
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<!-- Love Message -->
+<div id="loveMessage">I LOVE YOU MAMAA 💚</div>
+
+<script>
+// Wink animation
+setTimeout(() => {
+    document.getElementById("eye2").style.animation = "wink 0.5s";
+}, 1000);
+
+// Show Valentine question after wink
+setTimeout(() => {
+    document.getElementById("eye1").style.display = "none";
+    document.getElementById("eye2").style.display = "none";
+    document.getElementById("valentineSection").style.display = "block";
+}, 2000);
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const loveMessage = document.getElementById("loveMessage");
+
+// Initial sizes
+let yesSize = 150;
+let noSize = 150;
+
+// No button shrink, Yes grows
+noBtn.addEventListener("click", () => {
+    if(noSize > 20){
+        noSize -= 20;
+        noBtn.style.width = noSize + "px";
+        noBtn.style.height = noSize + "px";
+
+        yesSize += 20;
+        yesBtn.style.width = yesSize + "px";
+        yesBtn.style.height = yesSize + "px";
+    } else {
+        noBtn.style.display = "none";
+    }
+});
+
+// Yes button click
+yesBtn.addEventListener("click", () => {
+    document.getElementById("valentineSection").style.display = "none";
+    loveMessage.style.display = "block";
+});
+
+// Floating code symbols
+const symbols = ['<3', '{}', '()', ';;', '💻', '♥'];
+function createSymbol() {
+    const sym = document.createElement("div");
+    sym.className = "codeSymbol";
+    sym.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+    sym.style.left = Math.random() * window.innerWidth + "px";
+    sym.style.top = window.innerHeight + "px";
+    sym.style.fontSize = 12 + Math.random() * 16 + "px";
+    document.body.appendChild(sym);
+
+    let top = window.innerHeight;
+    const interval = setInterval(() => {
+        top -= 1 + Math.random() * 2;
+        sym.style.top = top + "px";
+        if (top < -50) {
+            sym.remove();
+            clearInterval(interval);
+        }
+    }, 20);
+}
+setInterval(createSymbol, 200);
+
+</script>
+
+</body>
+</html>
